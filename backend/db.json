@@ -1,0 +1,27 @@
+{
+  "transactions": [
+    {
+      "id": 1786813408057,
+      "title": "market",
+      "amount": 5000,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "baba"
+    }
+  ],
+  "users": [
+    {
+      "username": "baba",
+      "password": "123",
+      "created_at": "2026-08-15T17:25:25.323Z",
+      "id": 1
+    },
+    {
+      "username": "adam",
+      "password": "123",
+      "created_at": "2026-08-15T17:26:26.841Z",
+      "id": 2
+    }
+  ]
+}
