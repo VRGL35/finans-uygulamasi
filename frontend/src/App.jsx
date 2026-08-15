@@ -7,13 +7,37 @@ function App() {
   const [transactions, setTransactions] = useState(initialTransactions);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
+  // Ekleme
   const handleAddTransaction = (newTx) => {
     setTransactions((prev) => [newTx, ...prev]);
   };
 
+  // Silme
   const handleDeleteTransaction = (id) => {
     setTransactions((prev) => prev.filter((tx) => tx.id !== id));
+    if (editingTransaction?.id === id) {
+      setEditingTransaction(null);
+    }
+  };
+
+  // Düzenleme Başlatma
+  const handleStartEdit = (tx) => {
+    setEditingTransaction(tx);
+  };
+
+  // Düzenlemeyi Kaydetme
+  const handleUpdateTransaction = (updatedTx) => {
+    setTransactions((prev) =>
+      prev.map((item) => (item.id === updatedTx.id ? updatedTx : item))
+    );
+    setEditingTransaction(null);
+  };
+
+  // Düzenlemeyi İptal Etme
+  const handleCancelEdit = () => {
+    setEditingTransaction(null);
   };
 
   const filteredTransactions = transactions.filter((item) => {
@@ -69,8 +93,13 @@ function App() {
           </div>
         </div>
 
-        {/* Ekleme Formu */}
-        <HarcamaFormu onAddTransaction={handleAddTransaction} />
+        {/* Form Alanı (Ekleme / Güncelleme) */}
+        <HarcamaFormu
+          onAddTransaction={handleAddTransaction}
+          editingTransaction={editingTransaction}
+          onUpdateTransaction={handleUpdateTransaction}
+          onCancelEdit={handleCancelEdit}
+        />
 
         {/* Filtreleme ve Arama */}
         <div style={{ marginBottom: "20px" }}>
@@ -128,6 +157,7 @@ function App() {
                 key={item.id}
                 transaction={item}
                 onDelete={handleDeleteTransaction}
+                onEdit={handleStartEdit}
               />
             ))
           )}

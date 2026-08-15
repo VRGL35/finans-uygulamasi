@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function HarcamaFormu({ onAddTransaction }) {
+export default function HarcamaFormu({ onAddTransaction, editingTransaction, onUpdateTransaction, onCancelEdit }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
   const [category, setCategory] = useState("market");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (editingTransaction) {
+      setTitle(editingTransaction.title);
+      setAmount(editingTransaction.amount.toString());
+      setType(editingTransaction.type);
+      setCategory(editingTransaction.category);
+      setError("");
+    } else {
+      setTitle("");
+      setAmount("");
+      setType("expense");
+      setCategory("market");
+      setError("");
+    }
+  }, [editingTransaction]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,16 +38,27 @@ export default function HarcamaFormu({ onAddTransaction }) {
 
     setError("");
 
-    const newTransaction = {
-      id: Date.now(),
-      title: title.trim(),
-      amount: numericAmount,
-      type,
-      category,
-      date: new Date().toISOString().split("T")[0]
-    };
-
-    onAddTransaction(newTransaction);
+    if (editingTransaction) {
+      // Güncelleme işlemi
+      onUpdateTransaction({
+        ...editingTransaction,
+        title: title.trim(),
+        amount: numericAmount,
+        type,
+        category
+      });
+    } else {
+      // Yeni ekleme işlemi
+      const newTransaction = {
+        id: Date.now(),
+        title: title.trim(),
+        amount: numericAmount,
+        type,
+        category,
+        date: new Date().toISOString().split("T")[0]
+      };
+      onAddTransaction(newTransaction);
+    }
 
     setTitle("");
     setAmount("");
@@ -50,8 +77,10 @@ export default function HarcamaFormu({ onAddTransaction }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ backgroundColor: "#1e293b", padding: "20px", borderRadius: "12px", marginBottom: "24px" }}>
-      <h3 style={{ margin: "0 0 14px 0", fontSize: "16px", color: "#cbd5e1" }}>Yeni İşlem Ekle</h3>
-      
+      <h3 style={{ margin: "0 0 14px 0", fontSize: "16px", color: "#cbd5e1" }}>
+        {editingTransaction ? "İşlemi Düzenle" : "Yeni İşlem Ekle"}
+      </h3>
+
       {error && <div style={{ color: "#ef4444", fontSize: "13px", marginBottom: "10px" }}>{error}</div>}
 
       <input
@@ -85,21 +114,40 @@ export default function HarcamaFormu({ onAddTransaction }) {
         </select>
       </div>
 
-      <button
-        type="submit"
-        style={{
-          width: "100%",
-          padding: "12px",
-          borderRadius: "8px",
-          border: "none",
-          backgroundColor: "#3b82f6",
-          color: "#ffffff",
-          fontWeight: "bold",
-          cursor: "pointer"
-        }}
-      >
-        Ekle
-      </button>
+      <div style={{ display: "flex", gap: "10px" }}>
+        <button
+          type="submit"
+          style={{
+            flex: 1,
+            padding: "12px",
+            borderRadius: "8px",
+            border: "none",
+            backgroundColor: editingTransaction ? "#f59e0b" : "#3b82f6",
+            color: "#ffffff",
+            fontWeight: "bold",
+            cursor: "pointer"
+          }}
+        >
+          {editingTransaction ? "Güncelle" : "Ekle"}
+        </button>
+
+        {editingTransaction && (
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            style={{
+              padding: "12px 18px",
+              borderRadius: "8px",
+              border: "1px solid #475569",
+              backgroundColor: "transparent",
+              color: "#94a3b8",
+              cursor: "pointer"
+            }}
+          >
+            İptal
+          </button>
+        )}
+      </div>
     </form>
   );
 }

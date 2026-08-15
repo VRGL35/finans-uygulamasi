@@ -6,7 +6,7 @@ const categoryIcons = {
   diger: "📌"
 };
 
-export default function HarcamaKarti({ transaction, onDelete }) {
+export default function HarcamaKarti({ transaction, onDelete, onEdit }) {
   const isIncome = transaction.type === "income";
   const icon = categoryIcons[transaction.category] || categoryIcons.diger;
 
@@ -33,11 +33,39 @@ export default function HarcamaKarti({ transaction, onDelete }) {
           </span>
         </div>
       </div>
-      
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <div style={{ fontWeight: "700", fontSize: "16px", color: isIncome ? "#22c55e" : "#ef4444" }}>
           {isIncome ? "+" : "-"}{transaction.amount.toLocaleString("tr-TR")} TL
         </div>
+
+        {/* Düzenle Butonu */}
+        <button
+          type="button"
+          onClick={() => onEdit(transaction)}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "#94a3b8",
+            cursor: "pointer",
+            fontSize: "15px",
+            padding: "6px",
+            borderRadius: "4px"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#38bdf8";
+            e.currentTarget.style.backgroundColor = "#334155";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#94a3b8";
+            e.currentTarget.style.backgroundColor = "transparent";
+          }}
+          title="Düzenle"
+        >
+          ✏️
+        </button>
+
+        {/* Sil Butonu */}
         <button
           type="button"
           onClick={() => onDelete(transaction.id)}
@@ -49,8 +77,7 @@ export default function HarcamaKarti({ transaction, onDelete }) {
             fontSize: "18px",
             lineHeight: 1,
             padding: "6px",
-            borderRadius: "4px",
-            transition: "color 0.2s, background-color 0.2s"
+            borderRadius: "4px"
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.color = "#ef4444";
