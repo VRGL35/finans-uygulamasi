@@ -9,11 +9,11 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const handleAddTransaction = (newTx) => {
-    setTransactions([newTx, ...transactions]);
+    setTransactions((prev) => [newTx, ...prev]);
   };
 
   const handleDeleteTransaction = (id) => {
-    setTransactions(transactions.filter((tx) => tx.id !== id));
+    setTransactions((prev) => prev.filter((tx) => tx.id !== id));
   };
 
   const filteredTransactions = transactions.filter((item) => {

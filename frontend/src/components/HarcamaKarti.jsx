@@ -6,7 +6,7 @@ const categoryIcons = {
   diger: "📌"
 };
 
-export default function HarcamaKarti({ transaction }) {
+export default function HarcamaKarti({ transaction, onDelete }) {
   const isIncome = transaction.type === "income";
   const icon = categoryIcons[transaction.category] || categoryIcons.diger;
 
@@ -33,8 +33,37 @@ export default function HarcamaKarti({ transaction }) {
           </span>
         </div>
       </div>
-      <div style={{ fontWeight: "700", fontSize: "16px", color: isIncome ? "#22c55e" : "#ef4444" }}>
-        {isIncome ? "+" : "-"}{transaction.amount.toLocaleString("tr-TR")} TL
+      
+      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+        <div style={{ fontWeight: "700", fontSize: "16px", color: isIncome ? "#22c55e" : "#ef4444" }}>
+          {isIncome ? "+" : "-"}{transaction.amount.toLocaleString("tr-TR")} TL
+        </div>
+        <button
+          type="button"
+          onClick={() => onDelete(transaction.id)}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "#94a3b8",
+            cursor: "pointer",
+            fontSize: "18px",
+            lineHeight: 1,
+            padding: "6px",
+            borderRadius: "4px",
+            transition: "color 0.2s, background-color 0.2s"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#ef4444";
+            e.currentTarget.style.backgroundColor = "#334155";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#94a3b8";
+            e.currentTarget.style.backgroundColor = "transparent";
+          }}
+          title="Kaydı Sil"
+        >
+          ✕
+        </button>
       </div>
     </div>
   );
