@@ -7,14 +7,14 @@ function App() {
   const [transactions, setTransactions] = useState(initialTransactions);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [editingTransaction, setEditingTransaction] = useState(null);
 
-  // Ekleme
   const handleAddTransaction = (newTx) => {
     setTransactions((prev) => [newTx, ...prev]);
   };
 
-  // Silme
   const handleDeleteTransaction = (id) => {
     setTransactions((prev) => prev.filter((tx) => tx.id !== id));
     if (editingTransaction?.id === id) {
@@ -22,12 +22,10 @@ function App() {
     }
   };
 
-  // Düzenleme Başlatma
   const handleStartEdit = (tx) => {
     setEditingTransaction(tx);
   };
 
-  // Düzenlemeyi Kaydetme
   const handleUpdateTransaction = (updatedTx) => {
     setTransactions((prev) =>
       prev.map((item) => (item.id === updatedTx.id ? updatedTx : item))
@@ -35,15 +33,25 @@ function App() {
     setEditingTransaction(null);
   };
 
-  // Düzenlemeyi İptal Etme
   const handleCancelEdit = () => {
     setEditingTransaction(null);
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("all");
+    setStartDate("");
+    setEndDate("");
   };
 
   const filteredTransactions = transactions.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "all" || item.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    
+    const matchesStartDate = !startDate || item.date >= startDate;
+    const matchesEndDate = !endDate || item.date <= endDate;
+
+    return matchesSearch && matchesCategory && matchesStartDate && matchesEndDate;
   });
 
   const totalIncome = transactions
@@ -64,6 +72,17 @@ function App() {
     { id: "maas", label: "Maaş" },
     { id: "diger", label: "Diğer" }
   ];
+
+  const dateInputStyle = {
+    flex: 1,
+    padding: "8px 10px",
+    borderRadius: "8px",
+    border: "1px solid #334155",
+    backgroundColor: "#0f172a",
+    color: "#ffffff",
+    fontSize: "13px",
+    boxSizing: "border-box"
+  };
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", padding: "30px 16px" }}>
@@ -93,7 +112,7 @@ function App() {
           </div>
         </div>
 
-        {/* Form Alanı (Ekleme / Güncelleme) */}
+        {/* Form Alanı */}
         <HarcamaFormu
           onAddTransaction={handleAddTransaction}
           editingTransaction={editingTransaction}
@@ -101,8 +120,9 @@ function App() {
           onCancelEdit={handleCancelEdit}
         />
 
-        {/* Filtreleme ve Arama */}
-        <div style={{ marginBottom: "20px" }}>
+        {/* Filtreleme ve Arama Alanı */}
+        <div style={{ backgroundColor: "#1e293b", padding: "16px", borderRadius: "12px", marginBottom: "20px" }}>
+          {/* Metin Arama */}
           <input
             type="text"
             placeholder="İşlem ara..."
@@ -113,14 +133,53 @@ function App() {
               padding: "10px",
               borderRadius: "8px",
               border: "1px solid #334155",
-              backgroundColor: "#1e293b",
+              backgroundColor: "#0f172a",
               color: "#ffffff",
               boxSizing: "border-box",
               marginBottom: "12px"
             }}
           />
 
-          <div style={{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "6px" }}>
+          {/* Tarih Aralığı Seçimi */}
+          <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "12px" }}>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              style={dateInputStyle}
+              title="Başlangıç Tarihi"
+            />
+            <span style={{ color: "#64748b", fontSize: "13px" }}>-</span>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              style={dateInputStyle}
+              title="Bitiş Tarihi"
+            />
+            {(startDate || endDate || searchTerm || selectedCategory !== "all") && (
+              <button
+                type="button"
+                onClick={handleClearFilters}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  border: "none",
+                  backgroundColor: "#334155",
+                  color: "#94a3b8",
+                  fontSize: "12px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap"
+                }}
+                title="Filtreleri Temizle"
+              >
+                Temizle
+              </button>
+            )}
+          </div>
+
+          {/* Kategori Butonları */}
+          <div style={{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "2px" }}>
             {categories.map((cat) => (
               <button
                 key={cat.id}
@@ -131,7 +190,7 @@ function App() {
                   border: "none",
                   fontSize: "12px",
                   cursor: "pointer",
-                  backgroundColor: selectedCategory === cat.id ? "#3b82f6" : "#1e293b",
+                  backgroundColor: selectedCategory === cat.id ? "#3b82f6" : "#0f172a",
                   color: selectedCategory === cat.id ? "#ffffff" : "#94a3b8",
                   whiteSpace: "nowrap"
                 }}
