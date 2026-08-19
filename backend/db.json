@@ -1,0 +1,350 @@
+{
+  "transactions": [
+    {
+      "id": 1786818349549,
+      "title": "maaş",
+      "amount": 50000,
+      "type": "income",
+      "category": "maas",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818375096,
+      "title": "aidat",
+      "amount": 3350,
+      "type": "expense",
+      "category": "fatura",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818383702,
+      "title": "elektrik",
+      "amount": 770,
+      "type": "expense",
+      "category": "fatura",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818387117,
+      "title": "su",
+      "amount": 375,
+      "type": "expense",
+      "category": "fatura",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818403125,
+      "title": "doğalgaz + internet",
+      "amount": 950,
+      "type": "expense",
+      "category": "fatura",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818446778,
+      "title": "kredi kartı",
+      "amount": 12952,
+      "type": "expense",
+      "category": "diger",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818470965,
+      "title": "market alışverişi",
+      "amount": 386,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818475562,
+      "title": "market",
+      "amount": 280,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818480672,
+      "title": "market",
+      "amount": 480,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818488801,
+      "title": "market",
+      "amount": 660,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818493733,
+      "title": "market",
+      "amount": 1700,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818533894,
+      "title": "market",
+      "amount": 9652,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818543687,
+      "title": "market",
+      "amount": 5888,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818558643,
+      "title": "market",
+      "amount": 2500,
+      "type": "expense",
+      "category": "market",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818569572,
+      "title": "taksit",
+      "amount": 4742,
+      "type": "expense",
+      "category": "diger",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "id": 1786818608547,
+      "title": "yatırım",
+      "amount": 10050,
+      "type": "expense",
+      "category": "diger",
+      "date": "2026-08-15",
+      "username": "ayşe"
+    },
+    {
+      "title": "maaş",
+      "amount": 500,
+      "type": "income",
+      "category": "market",
+      "currency": "USD",
+      "date": "2026-08-16",
+      "username": "baba",
+      "id": 1786818608548
+    },
+    {
+      "title": "124214",
+      "amount": 124124,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "ulasim",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608549
+    },
+    {
+      "title": "124124",
+      "amount": 142412,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "ulasim",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608550
+    },
+    {
+      "title": "2345",
+      "amount": 234423,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608551
+    },
+    {
+      "title": "123123312",
+      "amount": 123123312,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608552
+    },
+    {
+      "title": "213231132",
+      "amount": 123312,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608553
+    },
+    {
+      "title": "123312",
+      "amount": 123123312,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608554
+    },
+    {
+      "title": "1233213132",
+      "amount": 123123123,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608555
+    },
+    {
+      "title": "124412412412",
+      "amount": 142124422,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "id": 1786818608556,
+      "username": "newnew"
+    },
+    {
+      "title": "12",
+      "amount": 2132112,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608557
+    },
+    {
+      "title": "1212",
+      "amount": 122121,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608558
+    },
+    {
+      "title": "1221",
+      "amount": 122112,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "newnew",
+      "id": 1786818608559
+    },
+    {
+      "title": "qsewqqew",
+      "amount": 500,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-16",
+      "username": "baba",
+      "id": 1786818608560
+    },
+    {
+      "title": "weqwqe",
+      "amount": 235555,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "fatura",
+      "date": "2026-08-16",
+      "username": "baba",
+      "id": 1786818608561
+    },
+    {
+      "title": "1221212",
+      "amount": 5,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-19",
+      "username": "baba",
+      "id": 1786818608562
+    },
+    {
+      "title": "12122",
+      "amount": 55555,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "market",
+      "date": "2026-08-19",
+      "username": "baba",
+      "id": 1786818608563
+    },
+    {
+      "title": "555555",
+      "amount": 55555555,
+      "type": "income",
+      "currency": "TRY",
+      "category": "maas",
+      "date": "2026-08-19",
+      "username": "baba",
+      "id": 1786818608564
+    }
+  ],
+  "users": [
+    {
+      "username": "baba",
+      "password": "123",
+      "created_at": "2026-08-15T17:25:25.323Z",
+      "id": 1
+    },
+    {
+      "username": "adam",
+      "password": "123",
+      "created_at": "2026-08-15T17:26:26.841Z",
+      "id": 2
+    },
+    {
+      "username": "ayşe",
+      "password": "1923",
+      "created_at": "2026-08-15T18:19:46.703Z",
+      "id": 3
+    },
+    {
+      "username": "newuser",
+      "password": "123",
+      "created_at": "2026-08-16T01:29:01.768Z",
+      "id": 4
+    },
+    {
+      "username": "newnew",
+      "password": "123",
+      "created_at": "2026-08-16T01:30:44.657Z",
+      "id": 5
+    }
+  ]
+}
