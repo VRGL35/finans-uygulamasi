@@ -34,7 +34,7 @@ Modern web teknolojileri (React & Vite) kullanılarak geliştirilmiş; çok kull
 ![Giriş Ekranı](./assets/giris.png)
 
 **Ana Dashboard**  
-![Ana Dashboard](./assets/dashboard.png)
+![Ana Dashboard](./assets/dashboard.png?v=1)
 
 **Ayarlar ve Tema Yönetimi**  
 ![Ayarlar Menüsü](./assets/ayarlar.png)
