@@ -5,42 +5,21 @@ export default function HarcamaKarti({ transaction, rates, onDelete, onEdit }) {
   const amountTRY = convertToTRY(transaction.amount, transaction.currency || "TRY", rates);
 
   return (
-    <div
-      style={{
-        backgroundColor: "var(--bg-card)",
-        border: "1px solid var(--border-color)",
-        borderLeft: `4px solid ${isIncome ? "#10b981" : "#ef4444"}`,
-        padding: "14px 18px",
-        borderRadius: "14px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.2)",
-        transition: "all 0.3s ease"
-      }}
-    >
+    <div className={`tx-card ${isIncome ? "income" : "expense"}`}>
       <div>
-        <h4 style={{ fontSize: "14px", fontWeight: "700", color: "var(--text-main)", margin: "0 0 4px 0" }}>
-          {transaction.title}
-        </h4>
-        <span style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+        <h4 className="tx-card-title">{transaction.title}</h4>
+        <span className="tx-card-meta">
           {transaction.category} • {transaction.date}
         </span>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <div style={{ textAlign: "right" }}>
-          <strong
-            style={{
-              fontSize: "15px",
-              color: isIncome ? "#34d399" : "#f87171",
-              display: "block"
-            }}
-          >
+      <div className="tx-card-right">
+        <div className="tx-card-amount-wrap">
+          <strong className={`tx-card-amount ${isIncome ? "income" : "expense"}`}>
             {isIncome ? "+" : "-"}{transaction.amount} {transaction.currency || "TRY"}
           </strong>
           {transaction.currency && transaction.currency !== "TRY" && (
-            <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+            <span className="tx-card-approx">
               ≈ {amountTRY.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} TL
             </span>
           )}
@@ -48,32 +27,20 @@ export default function HarcamaKarti({ transaction, rates, onDelete, onEdit }) {
 
         <button
           type="button"
+          className="tx-card-btn edit"
           onClick={() => onEdit(transaction)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "var(--accent)",
-            cursor: "pointer",
-            fontSize: "15px",
-            padding: "4px"
-          }}
           title="Düzenle"
+          aria-label="Düzenle"
         >
           ✏️
         </button>
 
         <button
           type="button"
+          className="tx-card-btn delete"
           onClick={() => onDelete(transaction.id)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#f87171",
-            cursor: "pointer",
-            fontSize: "15px",
-            padding: "4px"
-          }}
           title="Sil"
+          aria-label="Sil"
         >
           ✕
         </button>

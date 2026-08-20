@@ -1,3 +1,5 @@
+import { translations } from "../utils/translations";
+
 export default function FiltreAlani({
   searchTerm,
   setSearchTerm,
@@ -11,63 +13,45 @@ export default function FiltreAlani({
   categories = [],
   lang = "tr"
 }) {
-  const isEn = lang === "en";
+  const t = translations[lang] || translations.tr;
+
+  const hasActiveFilter =
+    searchTerm || startDate || endDate || selectedCategory !== "all";
 
   return (
-    <div
-      style={{
-        backgroundColor: "var(--bg-card)",
-        padding: "16px",
-        borderRadius: "14px",
-        border: "1px solid var(--border-color)",
-        marginBottom: "16px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        transition: "all 0.3s ease"
-      }}
-    >
+    <div className="filter-panel">
       <input
         type="text"
-        placeholder={isEn ? "Search transactions..." : "İşlem ara..."}
+        placeholder={t.searchPlaceholder}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div className="filter-date-row">
         <input
+          className="flex-1"
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          style={{ flex: 1 }}
         />
         <input
+          className="flex-1"
           type="date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
-          style={{ flex: 1 }}
         />
       </div>
 
-      <div style={{ display: "flex", gap: "6px", overflowX: "auto", paddingBottom: "4px" }}>
+      <div className="filter-chips">
         {categories.map((cat) => {
           const isSelected = selectedCategory === cat.id;
           return (
             <button
               key={cat.id}
               type="button"
+              className={`chip ${isSelected ? "active" : ""}`}
+              aria-pressed={isSelected}
               onClick={() => setSelectedCategory(cat.id)}
-              style={{
-                backgroundColor: isSelected ? "var(--primary-btn)" : "var(--bg-input)",
-                color: isSelected ? "#ffffff" : "var(--text-muted)",
-                border: isSelected ? "1px solid var(--accent)" : "1px solid var(--border-color)",
-                padding: "6px 12px",
-                borderRadius: "8px",
-                fontSize: "11px",
-                fontWeight: isSelected ? "600" : "normal",
-                cursor: "pointer",
-                whiteSpace: "nowrap"
-              }}
             >
               {cat.label}
             </button>
@@ -75,21 +59,13 @@ export default function FiltreAlani({
         })}
       </div>
 
-      {(searchTerm || startDate || endDate || selectedCategory !== "all") && (
+      {hasActiveFilter && (
         <button
           type="button"
+          className="btn-clear-filters"
           onClick={onClearFilters}
-          style={{
-            backgroundColor: "transparent",
-            color: "#f87171",
-            border: "1px dashed #ef4444",
-            padding: "6px",
-            borderRadius: "6px",
-            fontSize: "11px",
-            cursor: "pointer"
-          }}
         >
-          {isEn ? "Clear Filters ✕" : "Filtreleri Temizle ✕"}
+          {t.clearFilters}
         </button>
       )}
     </div>

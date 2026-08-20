@@ -12,6 +12,8 @@
   --accent: #38bdf8;
   --accent-glow: rgba(56, 189, 248, 0.35);
   --primary-btn: #0ea5e9;
+  --accent-soft: rgba(56, 189, 248, 0.15);
+  --accent-softer: rgba(56, 189, 248, 0.1);
 }
 
 [data-theme="dark"] {
@@ -25,6 +27,8 @@
   --accent: #ffffff;
   --accent-glow: rgba(255, 255, 255, 0.25);
   --primary-btn: #404040;
+  --accent-soft: rgba(255, 255, 255, 0.14);
+  --accent-softer: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="cyberpunk"] {
@@ -38,6 +42,8 @@
   --accent: #d946ef;
   --accent-glow: rgba(217, 70, 239, 0.45);
   --primary-btn: #a855f7;
+  --accent-soft: rgba(217, 70, 239, 0.16);
+  --accent-softer: rgba(217, 70, 239, 0.1);
 }
 
 [data-theme="emerald"] {
@@ -51,6 +57,8 @@
   --accent: #34d399;
   --accent-glow: rgba(52, 211, 153, 0.4);
   --primary-btn: #059669;
+  --accent-soft: rgba(52, 211, 153, 0.16);
+  --accent-softer: rgba(52, 211, 153, 0.1);
 }
 
 * {

@@ -145,16 +145,6 @@
       "username": "ayşe"
     },
     {
-      "title": "maaş",
-      "amount": 500,
-      "type": "income",
-      "category": "market",
-      "currency": "USD",
-      "date": "2026-08-16",
-      "username": "baba",
-      "id": 1786818608548
-    },
-    {
       "title": "124214",
       "amount": 124124,
       "type": "expense",
@@ -265,56 +255,6 @@
       "id": 1786818608559
     },
     {
-      "title": "qsewqqew",
-      "amount": 500,
-      "type": "expense",
-      "currency": "TRY",
-      "category": "market",
-      "date": "2026-08-16",
-      "username": "baba",
-      "id": 1786818608560
-    },
-    {
-      "title": "weqwqe",
-      "amount": 235555,
-      "type": "expense",
-      "currency": "TRY",
-      "category": "fatura",
-      "date": "2026-08-16",
-      "username": "baba",
-      "id": 1786818608561
-    },
-    {
-      "title": "1221212",
-      "amount": 5,
-      "type": "expense",
-      "currency": "TRY",
-      "category": "market",
-      "date": "2026-08-19",
-      "username": "baba",
-      "id": 1786818608562
-    },
-    {
-      "title": "12122",
-      "amount": 55555,
-      "type": "expense",
-      "currency": "TRY",
-      "category": "market",
-      "date": "2026-08-19",
-      "username": "baba",
-      "id": 1786818608563
-    },
-    {
-      "title": "555555",
-      "amount": 55555555,
-      "type": "income",
-      "currency": "TRY",
-      "category": "maas",
-      "date": "2026-08-19",
-      "username": "baba",
-      "id": 1786818608564
-    },
-    {
       "title": "maaş",
       "amount": 2000,
       "type": "income",
@@ -343,6 +283,26 @@
       "date": "2026-08-20",
       "username": "eren",
       "id": 1786818608567
+    },
+    {
+      "title": "harçlık",
+      "amount": 5000,
+      "type": "income",
+      "currency": "TRY",
+      "category": "diger",
+      "date": "2026-08-20",
+      "username": "baba",
+      "id": 1786818608568
+    },
+    {
+      "title": "steam",
+      "amount": 50,
+      "type": "expense",
+      "currency": "USD",
+      "category": "diger",
+      "date": "2026-08-20",
+      "username": "baba",
+      "id": 1786818608569
     }
   ],
   "users": [

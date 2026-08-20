@@ -24,22 +24,10 @@ export default function TarihGostergesi({ lang = "tr" }) {
   });
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-        fontSize: "13px",
-        color: "var(--text-muted)",
-        padding: "12px 18px",
-        backgroundColor: "var(--bg-card)",
-        border: "1px solid var(--border-color)",
-        borderRadius: "12px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-        transition: "all 0.3s ease"
-      }}
-    >
-      <span style={{ fontWeight: "500" }}>{dateStr}</span>
-      <span style={{ margin: "0 10px", color: "var(--border-color)" }}>•</span>
-      <strong style={{ color: "var(--accent)", letterSpacing: "0.5px" }}>{timeStr}</strong>
+    <div className="date-widget">
+      <span className="date-widget-date">{dateStr}</span>
+      <span className="date-widget-sep" aria-hidden="true">•</span>
+      <strong className="date-widget-time">{timeStr}</strong>
     </div>
   );
 }

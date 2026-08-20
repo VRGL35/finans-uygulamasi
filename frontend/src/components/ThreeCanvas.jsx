@@ -61,9 +61,9 @@ export default function ThreeCanvas() {
         positions[i + 2] += normalSpeed + warpSpeed;
 
         if (positions[i + 2] > 100) {
-          positions[i] = (Math.random() - 0.5) * 3000;       // Yepyeni bir X
-          positions[i + 1] = (Math.random() - 0.5) * 3000;   // Yepyeni bir Y
-          positions[i + 2] = -2000 - Math.random() * 1000;   // En arka taraflarda yepyeni bir Z
+          positions[i] = (Math.random() - 0.5) * 3000;       
+          positions[i + 1] = (Math.random() - 0.5) * 3000;   
+          positions[i + 2] = -2000 - Math.random() * 1000;   
         }
       }
       

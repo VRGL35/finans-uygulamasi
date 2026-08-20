@@ -13,7 +13,6 @@ const playlist = [
   { title: "Pink and White", artist: "Frank Ocean", src: "/music/sarki3.mp3" },
   { title: "Satelitte", artist: "Harry Styles", src: "/music/sarki4.mp3" },
   { title: "Casio", artist: "Jungle", src: "/music/sarki5.mp3" },
-
 ];
 
 const RadyoPlayer = forwardRef(({ isUserLoggedIn }, ref) => {
@@ -129,59 +128,7 @@ const RadyoPlayer = forwardRef(({ isUserLoggedIn }, ref) => {
   if (!isUserLoggedIn) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "45px",
-        zIndex: 900,
-        backgroundColor: "transparent",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 24px",
-        gap: "24px"
-      }}
-    >
-      <style>
-        {`
-          .star-range {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 2px;
-            cursor: pointer;
-          }
-          .star-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 10px;
-            width: 10px;
-            border-radius: 50%;
-            background: #ffffff;
-            cursor: pointer;
-            transition: box-shadow 0.3s ease-in-out;
-            box-shadow: ${isGlowing ? "0 0 14px #ffffff, 0 0 24px #ffffff" : "0 0 2px rgba(255, 255, 255, 0.3)"};
-          }
-          .normal-range {
-            -webkit-appearance: none;
-            width: 60px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 2px;
-            cursor: pointer;
-          }
-          .normal-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 8px;
-            width: 8px;
-            border-radius: 50%;
-            background: var(--text-main);
-          }
-        `}
-      </style>
-
+    <div className="radio-player">
       <audio
         ref={audioRef}
         src={currentTrack.src}
@@ -190,22 +137,41 @@ const RadyoPlayer = forwardRef(({ isUserLoggedIn }, ref) => {
         onEnded={playRandomTrack}
       />
 
-      <div style={{ display: "flex", flexDirection: "column", minWidth: "120px" }}>
-        <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-main)" }}>{currentTrack.title}</span>
-        <span style={{ fontSize: "9px", color: "var(--text-muted)" }}>{currentTrack.artist}</span>
+      <div className="radio-track-info">
+        <span className="radio-track-title">{currentTrack.title}</span>
+        <span className="radio-track-artist">{currentTrack.artist}</span>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-        <button onClick={handlePrev} style={{ background: "none", border: "none", color: "var(--text-main)", cursor: "pointer", fontSize: "12px" }}>⏮</button>
-        <button onClick={togglePlay} style={{ background: "none", border: "none", color: "var(--text-main)", cursor: "pointer", fontSize: "16px" }}>
+      <div className="radio-controls">
+        <button
+          type="button"
+          className="radio-btn prev"
+          onClick={handlePrev}
+          aria-label="Önceki şarkı"
+        >
+          ⏮
+        </button>
+        <button
+          type="button"
+          className="radio-btn play"
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Duraklat" : "Oynat"}
+        >
           {isPlaying ? "⏸" : "▶"}
         </button>
-        <button onClick={handleNext} style={{ background: "none", border: "none", color: "var(--text-main)", cursor: "pointer", fontSize: "12px" }}>⏭</button>
+        <button
+          type="button"
+          className="radio-btn next"
+          onClick={handleNext}
+          aria-label="Sonraki şarkı"
+        >
+          ⏭
+        </button>
       </div>
 
       <input
         type="range"
-        className="star-range"
+        className={`star-range ${isGlowing ? "glowing" : ""}`}
         min="0"
         max={duration || 100}
         value={currentTime}
@@ -214,10 +180,11 @@ const RadyoPlayer = forwardRef(({ isUserLoggedIn }, ref) => {
           setCurrentTime(newTime);
           if (audioRef.current) audioRef.current.currentTime = newTime;
         }}
+        aria-label="Şarkı ilerleme çubuğu"
       />
 
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <span style={{ fontSize: "12px" }}>🔊</span>
+      <div className="radio-volume">
+        <span className="radio-volume-icon" aria-hidden="true">🔊</span>
         <input
           type="range"
           className="normal-range"
@@ -226,6 +193,7 @@ const RadyoPlayer = forwardRef(({ isUserLoggedIn }, ref) => {
           step="0.05"
           value={volume}
           onChange={(e) => setVolume(Number(e.target.value))}
+          aria-label="Ses seviyesi"
         />
       </div>
     </div>

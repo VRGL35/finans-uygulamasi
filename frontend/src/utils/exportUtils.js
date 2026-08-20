@@ -56,9 +56,9 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
   doc.text(`${L.user}: @${username}   |   ${L.date}: ${new Date().toLocaleDateString('tr-TR')}`, 14, 36);
 
   const drawCard = (x, y, w, h, title, amount, amountColor) => {
-    doc.setDrawColor(226, 232, 240); // Sınır rengi
-    doc.setFillColor(248, 250, 252); // İç renk
-    doc.roundedRect(x, y, w, h, 3, 3, 'FD'); // 3px border-radius
+    doc.setDrawColor(226, 232, 240); 
+    doc.setFillColor(248, 250, 252); 
+    doc.roundedRect(x, y, w, h, 3, 3, 'FD'); 
     
     doc.setFont("helvetica", "bold");
     doc.setFontSize(9);
@@ -70,9 +70,9 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
     doc.text(`${amount.toLocaleString()} TL`, x + 6, y + 19);
   };
 
-  drawCard(14, 44, 56, 26, L.totalIncome, income, [16, 185, 129]);  // Yeşil Gelir
-  drawCard(75, 44, 56, 26, L.totalExpense, expense, [239, 68, 68]); // Kırmızı Gider
-  drawCard(136, 44, 60, 26, L.balance, balance, [15, 23, 42]);      // Koyu Lacivert Bakiye
+  drawCard(14, 44, 56, 26, L.totalIncome, income, [16, 185, 129]);  
+  drawCard(75, 44, 56, 26, L.totalExpense, expense, [239, 68, 68]); 
+  drawCard(136, 44, 60, 26, L.balance, balance, [15, 23, 42]);      
 
   const tableRows = transactions.map(tx => [
     String(tx.id).slice(-6),

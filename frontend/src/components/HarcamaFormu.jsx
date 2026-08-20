@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { playClickSound } from "../utils/soundUtils";
 
-function CustomSelect({ value, onChange, options, style = {} }) {
+function CustomSelect({ value, onChange, options, className = "" }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -18,87 +18,47 @@ function CustomSelect({ value, onChange, options, style = {} }) {
   const selectedOption = options.find((opt) => opt.value === value) || options[0];
 
   return (
-    <div ref={dropdownRef} style={{ position: "relative", ...style }}>
+    <div ref={dropdownRef} className={`select-wrap ${open ? "open" : ""} ${className}`}>
       <div
+        className="select-trigger"
+        role="button"
+        tabIndex={0}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         onClick={() => {
           playClickSound();
           setOpen(!open);
         }}
-        style={{
-          backgroundColor: "var(--bg-input)",
-          border: open ? "1px solid var(--accent)" : "1px solid var(--border-color)",
-          boxShadow: open ? "0 0 10px var(--accent-glow)" : "none",
-          borderRadius: open ? "10px 10px 0 0" : "10px",
-          color: "var(--text-main)",
-          padding: "10px 14px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          cursor: "pointer",
-          userSelect: "none",
-          transition: "border-color 0.2s, box-shadow 0.2s"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            playClickSound();
+            setOpen(!open);
+          }
         }}
       >
-        <span style={{ fontSize: "13px", fontWeight: "600" }}>{selectedOption?.label}</span>
-        <span
-          style={{
-            fontSize: "10px",
-            color: "var(--text-muted)",
-            transform: open ? "rotate(180deg)" : "none",
-            transition: "transform 0.2s"
-          }}
-        >
-          ▼
-        </span>
+        <span>{selectedOption?.label}</span>
+        <span className="select-arrow">▼</span>
       </div>
 
       {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            backgroundColor: "#0b1329", // Kesinlikle şeffaf olmayan katı koyu renk
-            border: "1px solid var(--accent)",
-            borderTop: "none",
-            borderRadius: "0 0 10px 10px",
-            boxShadow: "0 20px 40px rgba(0, 0, 0, 0.95)",
-            zIndex: 9999,
-            overflow: "hidden"
-          }}
-        >
+        <div className="select-dropdown" role="listbox">
           {options.map((opt) => {
             const isSelected = opt.value === value;
             return (
               <div
                 key={opt.value}
+                role="option"
+                aria-selected={isSelected}
+                className={`select-option ${isSelected ? "selected" : ""}`}
                 onClick={() => {
                   playClickSound();
                   onChange(opt.value);
                   setOpen(false);
                 }}
-                style={{
-                  padding: "10px 14px",
-                  fontSize: "13px",
-                  fontWeight: isSelected ? "700" : "500",
-                  color: isSelected ? "var(--accent)" : "var(--text-main)",
-                  backgroundColor: isSelected ? "rgba(0, 150, 255, 0.15)" : "transparent",
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  transition: "background 0.15s"
-                }}
-                onMouseEnter={(e) => {
-                  if (!isSelected) e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isSelected) e.currentTarget.style.backgroundColor = "transparent";
-                }}
               >
                 <span>{opt.label}</span>
-                {isSelected && <span style={{ fontSize: "12px" }}>✓</span>}
+                {isSelected && <span className="select-check">✓</span>}
               </div>
             );
           })}
@@ -187,24 +147,11 @@ export default function HarcamaFormu({
   ];
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        backgroundColor: "var(--bg-card)",
-        padding: "18px 20px",
-        borderRadius: "16px",
-        border: "1px solid var(--border-color)",
-        marginBottom: "18px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        transition: "all 0.3s ease"
-      }}
-    >
-      <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--text-main)", margin: 0 }}>
+    <form className="tx-form" onSubmit={handleSubmit}>
+      <h3 className="tx-form-title">
         {editingTransaction
-          ? isEn ? "Edit Transaction" : "İşlemi Düzenle"
-          : isEn ? "Add New Transaction" : "Yeni İşlem Ekle"}
+          ? (isEn ? "Edit Transaction" : "İşlemi Düzenle")
+          : (isEn ? "Add New Transaction" : "Yeni İşlem Ekle")}
       </h3>
 
       <input
@@ -215,35 +162,35 @@ export default function HarcamaFormu({
         required
       />
 
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div className="tx-form-row">
         <input
+          className="flex-2"
           type="number"
           placeholder={isEn ? "Amount" : "Tutar"}
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           required
-          style={{ flex: 2 }}
         />
         <CustomSelect
           value={currency}
           onChange={setCurrency}
           options={currencyOptions}
-          style={{ flex: 1 }}
+          className="flex-1"
         />
       </div>
 
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div className="tx-form-row">
         <CustomSelect
           value={type}
           onChange={setType}
           options={typeOptions}
-          style={{ flex: 1 }}
+          className="flex-1"
         />
         <CustomSelect
           value={category}
           onChange={setCategory}
           options={categoryOptions}
-          style={{ flex: 1 }}
+          className="flex-1"
         />
       </div>
 
@@ -254,44 +201,15 @@ export default function HarcamaFormu({
         required
       />
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
-        <button
-          type="submit"
-          style={{
-            flex: 1,
-            backgroundColor: "var(--primary-btn)",
-            color: "#ffffff",
-            border: "1px solid var(--accent)",
-            boxShadow: "0 0 15px var(--accent-glow)",
-            padding: "12px",
-            borderRadius: "10px",
-            fontSize: "14px",
-            fontWeight: "700",
-            cursor: "pointer",
-            transition: "all 0.2s ease"
-          }}
-        >
+      <div className="tx-form-actions">
+        <button type="submit" className="btn-submit">
           {editingTransaction
-            ? isEn ? "Update" : "Güncelle"
-            : isEn ? "Add" : "Ekle"}
+            ? (isEn ? "Update" : "Güncelle")
+            : (isEn ? "Add" : "Ekle")}
         </button>
 
         {editingTransaction && (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            style={{
-              backgroundColor: "var(--border-color)",
-              color: "var(--text-main)",
-              border: "none",
-              padding: "12px 18px",
-              borderRadius: "10px",
-              fontSize: "13px",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.2s ease"
-            }}
-          >
+          <button type="button" className="btn-cancel" onClick={onCancelEdit}>
             {isEn ? "Cancel" : "İptal"}
           </button>
         )}
