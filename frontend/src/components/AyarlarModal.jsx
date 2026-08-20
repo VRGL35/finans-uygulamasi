@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { playClickSound } from "../utils/soundUtils";
+import { translations } from "../utils/translations";
 
 const THEMES = ["dark", "cyberpunk", "midnight", "emerald"];
 
@@ -18,6 +19,8 @@ export default function AyarlarModal({
   const [resetArmed, setResetArmed] = useState(false);
   const panelRef = useRef(null);
   const armTimer = useRef(null);
+
+  const t = translations[tempLang] || translations.tr;
 
   useEffect(() => {
     setTempLang(currentLang);
@@ -56,33 +59,6 @@ export default function AyarlarModal({
     if (onClearAllData) onClearAllData();
   };
 
-  const L = {
-    tr: {
-      title: "Sistem Ayarları",
-      close: "Kapat",
-      lang: "Dil Seçimi",
-      theme: "Arayüz Teması",
-      aiTitle: "Yapay Zeka Asistanı",
-      aiDesc: "Finansal analiz ve akıllı tahminleme",
-      save: "Değişiklikleri Kaydet",
-      reset: "Tüm Verileri Sıfırla",
-      resetConfirm: "Emin misin? Onay için tekrar tıkla",
-      themes: { dark: "Karanlık", cyberpunk: "Siberpunk", midnight: "Gece Yarısı", emerald: "Zümrüt" }
-    },
-    en: {
-      title: "System Settings",
-      close: "Close",
-      lang: "Language",
-      theme: "Interface Theme",
-      aiTitle: "AI Assistant",
-      aiDesc: "Financial analysis & smart predictions",
-      save: "Save Changes",
-      reset: "Factory Reset",
-      resetConfirm: "Are you sure? Click again to confirm",
-      themes: { dark: "Dark", cyberpunk: "Cyberpunk", midnight: "Midnight", emerald: "Emerald" }
-    }
-  }[tempLang] || {};
-
   return (
     <div
       className="modal-overlay"
@@ -98,7 +74,7 @@ export default function AyarlarModal({
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        aria-label={L?.title || "Ayarlar"}
+        aria-label={t.settingsTitle}
         className="settings-modal"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -107,7 +83,7 @@ export default function AyarlarModal({
         <button
           type="button"
           className="modal-close-btn"
-          aria-label={L?.close || "Kapat"}
+          aria-label={t.close}
           onClick={() => { click(); if (onClose) onClose(); }}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -117,13 +93,13 @@ export default function AyarlarModal({
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
-          <h2 className="settings-title">{L?.title || "Ayarlar"}</h2>
+          <h2 className="settings-title">{t.settingsTitle}</h2>
         </div>
 
         <div className="settings-body">
 
           <div>
-            <span className="field-label">{L?.lang || "Dil"}</span>
+            <span className="field-label">{t.languageTab}</span>
             <div className="segmented">
               {["tr", "en"].map((lng) => (
                 <button
@@ -140,17 +116,17 @@ export default function AyarlarModal({
           </div>
 
           <div>
-            <span className="field-label">{L?.theme || "Tema"}</span>
+            <span className="field-label">{t.themeTab}</span>
             <div className="theme-grid">
-              {THEMES.map((t) => (
+              {THEMES.map((th) => (
                 <button
-                  key={t}
+                  key={th}
                   type="button"
-                  aria-pressed={tempTheme === t}
-                  className={`theme-btn ${tempTheme === t ? "active" : ""}`}
-                  onClick={() => { click(); setTempTheme(t); }}
+                  aria-pressed={tempTheme === th}
+                  className={`theme-btn ${tempTheme === th ? "active" : ""}`}
+                  onClick={() => { click(); setTempTheme(th); }}
                 >
-                  {L?.themes?.[t] || t}
+                  {t.themes?.[th] || th}
                 </button>
               ))}
             </div>
@@ -160,9 +136,9 @@ export default function AyarlarModal({
             <div>
               <div className="ai-title-row">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 12 2.1 7.1"></path><path d="M12 12l9.9 4.9"></path></svg>
-                <span className="ai-title">{L?.aiTitle || "Asistan"}</span>
+                <span className="ai-title">{t.aiAssistantTitle}</span>
               </div>
-              <span className="ai-desc">{L?.aiDesc || "Aç / Kapat"}</span>
+              <span className="ai-desc">{t.aiAssistantDesc}</span>
             </div>
 
             <button
@@ -180,7 +156,7 @@ export default function AyarlarModal({
 
         <div className="settings-actions">
           <button type="button" className="btn-save" onClick={handleSaveClick}>
-            {L?.save || "Kaydet"}
+            {t.saveChanges}
           </button>
 
           <button
@@ -189,7 +165,7 @@ export default function AyarlarModal({
             onClick={handleResetClick}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            {resetArmed ? (L?.resetConfirm || "Emin misin?") : (L?.reset || "Sıfırla")}
+            {resetArmed ? t.resetArmed : t.resetAllData}
           </button>
         </div>
 

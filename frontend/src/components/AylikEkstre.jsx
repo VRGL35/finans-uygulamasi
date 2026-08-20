@@ -1,40 +1,48 @@
+import { useState } from "react";
 import { exportToPDF, exportToExcel } from "../utils/exportUtils";
 import { playClickSound } from "../utils/soundUtils";
+import { translations } from "../utils/translations";
 
 export default function AylikEkstre({ transactions, currentUser, lang = "tr" }) {
-  const isTr = lang === "tr";
+  const t = translations[lang] || translations.tr;
+  const [busy, setBusy] = useState(null);
 
-  const handleExport = (type) => {
+  const handleExport = async (type) => {
     playClickSound();
-    if (type === "pdf") {
-      exportToPDF(transactions, currentUser, lang);
-    } else {
-      exportToExcel(transactions, currentUser, lang);
+    setBusy(type);
+    try {
+      if (type === "pdf") {
+        await exportToPDF(transactions, currentUser, lang);
+      } else {
+        await exportToExcel(transactions, currentUser, lang);
+      }
+    } catch (err) {
+      console.error("Export hatası:", err);
+    } finally {
+      setBusy(null);
     }
   };
 
   return (
     <div className="glass-card">
-      <h3 className="card-title">
-        {isTr ? "Aylık Ekstre ve Rapor Al" : "Monthly Statement & Report"}
-      </h3>
+      <h3 className="card-title">{t.monthlyStatement}</h3>
 
       <div className="ekstre-buttons">
         <button
           type="button"
           className="btn-export pdf"
+          disabled={busy !== null}
           onClick={() => handleExport("pdf")}
-          aria-label={isTr ? "PDF olarak indir" : "Download as PDF"}
         >
-          📄 {isTr ? "PDF İndir" : "Download PDF"}
+          {busy === "pdf" ? "⏳" : `📄 ${lang === "tr" ? "PDF İndir" : "Download PDF"}`}
         </button>
         <button
           type="button"
           className="btn-export excel"
+          disabled={busy !== null}
           onClick={() => handleExport("excel")}
-          aria-label={isTr ? "Excel olarak indir" : "Download as Excel"}
         >
-          📊 {isTr ? "Excel İndir" : "Download Excel"}
+          {busy === "excel" ? "⏳" : `📊 ${lang === "tr" ? "Excel İndir" : "Download Excel"}`}
         </button>
       </div>
     </div>

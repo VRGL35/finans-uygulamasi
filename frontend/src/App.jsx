@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster, toast } from "react-hot-toast";
 import "./App.css";
@@ -7,17 +7,21 @@ import HarcamaFormu from "./components/HarcamaFormu";
 import BakiyeOzeti from "./components/BakiyeOzeti";
 import YapayZekaAsistani from "./components/YapayZekaAsistani";
 import ButceHedefleri from "./components/ButceHedefleri";
-import ButceKurulumModal from "./components/ButceKurulumModal";
-import DilSecimModal from "./components/DilSecimModal";
-import AyarlarModal from "./components/AyarlarModal";
 import FiltreAlani from "./components/FiltreAlani";
 import RadyoPlayer from "./components/RadyoPlayer";
 import GirisEkrani from "./components/GirisEkrani";
 import TarihGostergesi from "./components/TarihGostergesi";
-import KategoriOzeti from "./components/KategoriOzeti";
-import AylikEkstre from "./components/AylikEkstre";
-import ThreeCanvas from "./components/ThreeCanvas";
+import MarketTicker from "./components/MarketTicker";
 import IntroEkrani from "./components/IntroEkrani";
+
+// Ağır modüller: sadece gerektiğinde yüklenir
+const ThreeCanvas = lazy(() => import("./components/ThreeCanvas"));
+const KategoriOzeti = lazy(() => import("./components/KategoriOzeti"));
+const AylikEkstre = lazy(() => import("./components/AylikEkstre"));
+const AyarlarModal = lazy(() => import("./components/AyarlarModal"));
+const DilSecimModal = lazy(() => import("./components/DilSecimModal"));
+const ButceKurulumModal = lazy(() => import("./components/ButceKurulumModal"));
+
 import {
   getTransactions,
   addTransaction,
@@ -51,8 +55,6 @@ export default function App() {
 
   const [transactions, setTransactions] = useState([]);
   const [rates, setRates] = useState({ USD: 34.25, EUR: 37.42, TRY: 1 });
-  const [rateTrend, setRateTrend] = useState({ USD: "up", EUR: "up" });
-  const [isFlashing, setIsFlashing] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -97,35 +99,19 @@ export default function App() {
     document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
+  // Kur: hesaplamalar için 60 sn'de bir yenilenir (görsel ticker kendi kendine akar)
   useEffect(() => {
-    let flashTimer;
-    getExchangeRates().then((initialRates) => {
-      if (initialRates) setRates(initialRates);
-    });
-
-    const interval = setInterval(() => {
-      const deltaUSD = Math.random() * 0.04 - 0.018;
-      const deltaEUR = Math.random() * 0.04 - 0.018;
-
-      setRateTrend({
-        USD: deltaUSD >= 0 ? "up" : "down",
-        EUR: deltaEUR >= 0 ? "up" : "down"
+    let ignore = false;
+    const load = () => {
+      getExchangeRates().then((r) => {
+        if (r && !ignore) setRates(r);
       });
-
-      setIsFlashing(true);
-      clearTimeout(flashTimer);
-      flashTimer = setTimeout(() => setIsFlashing(false), 500);
-
-      setRates((prev) => {
-        const newUSD = Math.max(1, Number((prev.USD + deltaUSD).toFixed(3)));
-        const newEUR = Math.max(1, Number((prev.EUR + deltaEUR).toFixed(3)));
-        return { USD: newUSD, EUR: newEUR, TRY: 1 };
-      });
-    }, 3000);
-
+    };
+    load();
+    const interval = setInterval(load, 60000);
     return () => {
+      ignore = true;
       clearInterval(interval);
-      clearTimeout(flashTimer);
     };
   }, []);
 
@@ -148,6 +134,7 @@ export default function App() {
           if (!ignore) {
             console.error("Veri çekme hatası:", err);
             setTransactions([]);
+            toast.error(t.loadFailed);
           }
         });
 
@@ -361,26 +348,30 @@ export default function App() {
         toastOptions={{ className: "custom-toast" }}
       />
 
-      {introState.show && <IntroEkrani username={introState.user} mode={introState.mode} onFinish={handleIntroFinish} />}
+      {introState.show && <IntroEkrani username={introState.user} mode={introState.mode} onFinish={handleIntroFinish} lang={lang} />}
 
-      {showSettingsModal && (
-        <AyarlarModal
-          currentLang={lang}
-          currentTheme={theme}
-          currentShowAssistant={showAssistant}
-          onSave={handleSaveSettings}
-          onClose={() => setShowSettingsModal(false)}
-          username={currentUser || "guest"}
-          onClearAllData={handleClearAllData}
-        />
-      )}
+      <Suspense fallback={null}>
+        {showSettingsModal && (
+          <AyarlarModal
+            currentLang={lang}
+            currentTheme={theme}
+            currentShowAssistant={showAssistant}
+            onSave={handleSaveSettings}
+            onClose={() => setShowSettingsModal(false)}
+            username={currentUser || "guest"}
+            onClearAllData={handleClearAllData}
+          />
+        )}
 
-      {showLangModal && !introState.show && currentUser && <DilSecimModal onSelectLanguage={handleSelectLanguage} />}
-      {showBudgetModal && !showLangModal && !introState.show && currentUser && (
-        <ButceKurulumModal username={currentUser} onComplete={handleBudgetModalComplete} lang={lang} />
-      )}
+        {showLangModal && !introState.show && currentUser && <DilSecimModal onSelectLanguage={handleSelectLanguage} />}
+        {showBudgetModal && !showLangModal && !introState.show && currentUser && (
+          <ButceKurulumModal username={currentUser} onComplete={handleBudgetModalComplete} lang={lang} />
+        )}
+      </Suspense>
 
-      <ThreeCanvas />
+      <Suspense fallback={null}>
+        <ThreeCanvas />
+      </Suspense>
       <RadyoPlayer ref={radyoRef} isUserLoggedIn={Boolean(currentUser)} />
 
       <div ref={tiltRef} className={`app-content${introState.show ? " intro-hidden" : ""}`}>
@@ -403,15 +394,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className={`market-ticker${isFlashing ? " flashing" : ""}`}>
-                <span className="market-label">{t.liveMarket}:</span>
-                <span className={`rate ${rateTrend.USD === "up" ? "up" : "down"}`}>
-                  1 $ = {rates.USD.toFixed(2)} ₺ {rateTrend.USD === "up" ? "▲" : "▼"}
-                </span>
-                <span className={`rate ${rateTrend.EUR === "up" ? "up" : "down"}`}>
-                  1 € = {rates.EUR.toFixed(2)} ₺ {rateTrend.EUR === "up" ? "▲" : "▼"}
-                </span>
-              </div>
+              <MarketTicker lang={lang} baseRates={rates} />
 
               <div className="topbar-actions">
                 <button
@@ -452,7 +435,9 @@ export default function App() {
 
                 <HarcamaFormu onAddTransaction={handleAddTransaction} editingTransaction={editingTransaction} onUpdateTransaction={handleUpdateTransaction} onCancelEdit={handleCancelEdit} lang={lang} />
                 <ButceHedefleri transactions={safeTransactions} rates={rates} currentUser={currentUser} budgetTrigger={budgetTrigger} lang={lang} />
-                <KategoriOzeti transactions={safeTransactions} lang={lang} />
+                <Suspense fallback={<div className="glass-card skeleton-card" />}>
+                  <KategoriOzeti transactions={safeTransactions} lang={lang} />
+                </Suspense>
               </motion.div>
 
               <motion.div
@@ -461,7 +446,9 @@ export default function App() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <AylikEkstre transactions={safeTransactions} currentUser={currentUser} lang={lang} />
+                <Suspense fallback={<div className="glass-card skeleton-card" />}>
+                  <AylikEkstre transactions={safeTransactions} currentUser={currentUser} lang={lang} />
+                </Suspense>
                 <FiltreAlani
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}

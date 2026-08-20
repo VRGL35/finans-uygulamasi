@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { translations } from "../utils/translations";
 
-export default function IntroEkrani({ username, mode, onFinish }) {
+export default function IntroEkrani({ username, mode, onFinish, lang = "tr" }) {
+  const t = translations[lang] || translations.tr;
   const isLogin = mode === "login";
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function IntroEkrani({ username, mode, onFinish }) {
       transition={{ duration: 0.5 }}
       role="alert"
       aria-live="polite"
-      aria-label={isLogin ? "Giriş yapılıyor" : "Çıkış yapılıyor"}
+      aria-label={isLogin ? t.introVerified : t.introShutdown}
     >
       <div className="intro-glow-bg" aria-hidden="true" />
 
@@ -30,13 +32,11 @@ export default function IntroEkrani({ username, mode, onFinish }) {
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
         />
-
         <motion.div
           className="intro-spinner-middle"
           animate={{ rotate: -360 }}
           transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
         />
-
         <motion.div
           className="intro-spinner-core"
           animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
@@ -51,7 +51,7 @@ export default function IntroEkrani({ username, mode, onFinish }) {
         transition={{ delay: 0.3 }}
       >
         <h1 className="intro-title">
-          {isLogin ? "KİMLİK DOĞRULANDI" : "SİSTEM KAPATILIYOR"}
+          {isLogin ? t.introVerified : t.introShutdown}
         </h1>
 
         <motion.p
@@ -61,8 +61,8 @@ export default function IntroEkrani({ username, mode, onFinish }) {
           transition={{ delay: 0.8 }}
         >
           {isLogin
-            ? `TEKRAR HOŞ GELDİN, @${username.toUpperCase()}`
-            : "GÜVENLİ ÇIKIŞ YAPILDI"}
+            ? t.introWelcome.replace("{user}", (username || "").toUpperCase())
+            : t.introSafeExit}
         </motion.p>
       </motion.div>
 
@@ -72,7 +72,6 @@ export default function IntroEkrani({ username, mode, onFinish }) {
         aria-valuenow={100}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={isLogin ? "Giriş ilerlemesi" : "Çıkış ilerlemesi"}
       >
         <motion.div
           className="intro-progress-fill"

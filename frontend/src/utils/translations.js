@@ -13,6 +13,7 @@ export const translations = {
     liveMarket: "Canlı Piyasa (3s)",
     loggedInAs: "Giriş Yapılan Hesap",
     logout: "Çıkış Yap",
+
     totalBalance: "Toplam Bakiye",
     income: "Gelir",
     expense: "Gider",
@@ -42,15 +43,10 @@ export const translations = {
     budgetYes: "Evet, Belirle",
     budgetStep2Desc: "Kategorileriniz için aylık limit belirleyin. Boş bırakılan kategoriler takip edilmez.",
     budgetLimitPlaceholder: "Aylık limit (₺)",
+    budgetLimitLabel: "Limiti (TL):",
     recentTransactions: "Son İşlemler",
     noTransactions: "Eşleşen işlem bulunamadı.",
     currencyTRY: "₺ TRY",
-    budgetLimitLabel: "Limiti (TL):",
-    errNoAccount: "Böyle bir hesap yok. 'Kayıt Ol' ile hesap oluştur.",   // tr
-    errWrongPassword: "Şifre hatalı, tekrar dene.",
-    errUserTaken: "Bu kullanıcı adı zaten kayıtlı. Giriş yapmayı dene.",
-    errShortPassword: "Şifre en az 4 karakter olmalı.",
-    registerSuccess: "Hesap oluşturuldu! 🎉",
 
     welcomeUser: "Hoş geldin, {user}!",
     langUpdated: "Dil güncellendi!",
@@ -64,6 +60,53 @@ export const translations = {
     txDeleteFailed: "Silme başarısız.",
     txUpdated: "İşlem güncellendi.",
     txUpdateFailed: "Güncelleme başarısız.",
+    loadFailed: "Veriler yüklenemedi.",
+
+    errNoAccount: "Böyle bir hesap yok. 'Kayıt Ol' ile hesap oluştur.",
+    errWrongPassword: "Şifre hatalı, tekrar dene.",
+    errUserTaken: "Bu kullanıcı adı zaten kayıtlı. Giriş yapmayı dene.",
+    errShortPassword: "Şifre en az 4 karakter olmalı.",
+    registerSuccess: "Hesap oluşturuldu! 🎉",
+
+    resetNeedsUsername: "Önce kullanıcı adını gir.",
+    resetTitle: "Şifre Sıfırla",
+    resetDesc: "Hesabına bağlı e-postayı doğrula ve yeni bir şifre belirle.",
+    resetHint: "Kayıtlı e-posta: {email}",
+    resetEmailLabel: "E-posta adresin",
+    resetNewPass: "Yeni şifre",
+    resetConfirm: "Yeni şifre (tekrar)",
+    resetSubmit: "Şifreyi Güncelle",
+    resetSuccess: "Şifren güncellendi! Yeni şifrenle giriş yap.",
+    errNoEmail: "Bu hesapta kayıtlı e-posta yok, sıfırlama yapılamaz.",
+    errEmailMismatch: "Girdiğin e-posta kayıtlarla eşleşmedi.",
+    errPassMismatch: "İki şifre birbiriyle eşleşmiyor.",
+
+    loginTitle: "Sisteme Giriş Yap",
+    registerTitle: "Yeni Hesap Oluştur",
+    loginDesc: "Finansal kontrol paneline erişmek için bilgilerinizi girin.",
+    registerDesc: "Kendi finansal uzay üssünüzü kurmak için aramıza katılın.",
+    usernamePlaceholder: "Kullanıcı Adı",
+    emailPlaceholder: "E-posta Adresi",
+    passwordPlaceholder: "Şifre",
+    rememberMe: "Beni Hatırla",
+    forgotPassword: "Şifremi Unuttum",
+    loginSubmit: "Giriş Yap",
+    registerSubmit: "Kayıt Ol",
+    noAccount: "Hesabınız yok mu?",
+    goRegister: "Hemen Kayıt Olun",
+    hasAccount: "Zaten bir hesabınız var mı?",
+    goLogin: "Giriş Yapın",
+
+    introVerified: "KİMLİK DOĞRULANDI",
+    introShutdown: "SİSTEM KAPATILIYOR",
+    introWelcome: "TEKRAR HOŞ GELDİN, @{user}",
+    introSafeExit: "GÜVENLİ ÇIKIŞ YAPILDI",
+
+    aiAssistantTitle: "Yapay Zeka Asistanı",
+    aiAssistantDesc: "Finansal analiz ve akıllı tahminleme",
+    saveChanges: "Değişiklikleri Kaydet",
+    resetAllData: "Tüm Verileri Sıfırla",
+    resetArmed: "Emin misin? Onay için tekrar tıkla",
 
     assistant: {
       title: "SİSTEM ASİSTANI AKTİF",
@@ -73,6 +116,13 @@ export const translations = {
       stable: "Nakit akışın stabil ve bütçen şu an dengede görünüyor. ",
       waitingIncome: "Sistem analizi için gelir kalemi bekleniyor. ",
       leakage: "Bütçendeki en büyük sızıntı \"{category}\" kalemi ({amount} TL). Bu kategoriyi optimize edersen kâr marjın yükselecektir."
+    },
+
+    themes: {
+      dark: "Karanlık",
+      cyberpunk: "Siberpunk",
+      midnight: "Gece Yarısı",
+      emerald: "Zümrüt"
     },
 
     categories: {
@@ -99,6 +149,7 @@ export const translations = {
     liveMarket: "Live Market (3s)",
     loggedInAs: "Logged in as",
     logout: "Log Out",
+
     totalBalance: "Total Balance",
     income: "Income",
     expense: "Expense",
@@ -125,18 +176,13 @@ export const translations = {
     budgetQuestion: "Set a Budget Limit?",
     budgetQuestionDesc: "You can set monthly limits for your categories to keep your expenses under control.",
     budgetNo: "Skip",
-    budgetYes: "Yes, Set it ",
+    budgetYes: "Yes, Set it",
     budgetStep2Desc: "Set monthly limits for your categories. Categories left empty won't be tracked.",
     budgetLimitPlaceholder: "Monthly limit (₺)",
+    budgetLimitLabel: "Limit (TL):",
     recentTransactions: "Recent Transactions",
     noTransactions: "No matching transactions found.",
     currencyTRY: "₺ TRY",
-    budgetLimitLabel: "Limit (TL):",
-    errNoAccount: "No such account. Create one via 'Register'.",          // en
-    errWrongPassword: "Incorrect password, try again.",
-    errUserTaken: "This username is already taken. Try logging in.",
-    errShortPassword: "Password must be at least 4 characters.",
-    registerSuccess: "Account created! 🎉",
 
     welcomeUser: "Welcome back, {user}!",
     langUpdated: "Language updated!",
@@ -150,6 +196,53 @@ export const translations = {
     txDeleteFailed: "Delete failed.",
     txUpdated: "Transaction updated.",
     txUpdateFailed: "Update failed.",
+    loadFailed: "Failed to load data.",
+
+    errNoAccount: "No such account. Create one via 'Register'.",
+    errWrongPassword: "Incorrect password, try again.",
+    errUserTaken: "This username is already taken. Try logging in.",
+    errShortPassword: "Password must be at least 4 characters.",
+    registerSuccess: "Account created! 🎉",
+
+    resetNeedsUsername: "Enter your username first.",
+    resetTitle: "Reset Password",
+    resetDesc: "Verify the email on your account and set a new password.",
+    resetHint: "Registered email: {email}",
+    resetEmailLabel: "Your email address",
+    resetNewPass: "New password",
+    resetConfirm: "New password (again)",
+    resetSubmit: "Update Password",
+    resetSuccess: "Password updated! Log in with your new password.",
+    errNoEmail: "No email registered on this account; cannot reset.",
+    errEmailMismatch: "The email you entered doesn't match our records.",
+    errPassMismatch: "The two passwords don't match.",
+
+    loginTitle: "Sign In to System",
+    registerTitle: "Create New Account",
+    loginDesc: "Enter your credentials to access the financial control panel.",
+    registerDesc: "Join us to build your own financial space station.",
+    usernamePlaceholder: "Username",
+    emailPlaceholder: "Email Address",
+    passwordPlaceholder: "Password",
+    rememberMe: "Remember Me",
+    forgotPassword: "Forgot Password",
+    loginSubmit: "Log In",
+    registerSubmit: "Register",
+    noAccount: "No account?",
+    goRegister: "Register Now",
+    hasAccount: "Already have an account?",
+    goLogin: "Log In",
+
+    introVerified: "IDENTITY VERIFIED",
+    introShutdown: "SYSTEM SHUTTING DOWN",
+    introWelcome: "WELCOME BACK, @{user}",
+    introSafeExit: "SAFE LOGOUT COMPLETED",
+
+    aiAssistantTitle: "AI Assistant",
+    aiAssistantDesc: "Financial analysis & smart predictions",
+    saveChanges: "Save Changes",
+    resetAllData: "Factory Reset",
+    resetArmed: "Are you sure? Click again to confirm",
 
     assistant: {
       title: "SYSTEM ASSISTANT ACTIVE",
@@ -159,6 +252,13 @@ export const translations = {
       stable: "Your cash flow is stable and your budget looks balanced for now. ",
       waitingIncome: "Awaiting income entries for system analysis. ",
       leakage: "The biggest leak in your budget is \"{category}\" ({amount} TL). Optimizing this category will raise your profit margin."
+    },
+
+    themes: {
+      dark: "Dark",
+      cyberpunk: "Cyberpunk",
+      midnight: "Midnight",
+      emerald: "Emerald"
     },
 
     categories: {

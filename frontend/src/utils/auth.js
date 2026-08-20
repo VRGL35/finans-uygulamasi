@@ -12,6 +12,7 @@ const writeRegistry = (reg) => {
   localStorage.setItem(REGISTRY_KEY, JSON.stringify(reg));
 };
 
+// Demo seviyesi hash (cyrb53) — gerçek güvenlik için backend şart
 const hashPassword = (str, seed = 7) => {
   let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
   for (let i = 0, ch; i < str.length; i++) {
@@ -31,7 +32,7 @@ export const registerUser = ({ username, password, email = "" }) => {
 
   reg[name] = {
     pass: hashPassword(password),
-    email,
+    email: email.trim(),
     createdAt: Date.now()
   };
   writeRegistry(reg);
@@ -49,3 +50,34 @@ export const loginUser = ({ username, password }) => {
 };
 
 export const userExists = (username) => Boolean(readRegistry()[username.trim()]);
+
+
+export const maskEmail = (email = "") => {
+  const [user, domain] = email.split("@");
+  if (!domain) return "";
+  return `${user.slice(0, 1)}***@${domain}`;
+};
+
+export const requestPasswordReset = (username) => {
+  const name = username.trim();
+  const reg = readRegistry();
+
+  if (!reg[name]) return { ok: false, error: "noAccount" };
+  if (!reg[name].email) return { ok: false, error: "noEmail" };
+
+  return { ok: true, email: reg[name].email };
+};
+
+export const resetPassword = ({ username, email, newPassword }) => {
+  const name = username.trim();
+  const reg = readRegistry();
+
+  if (!reg[name]) return { ok: false, error: "noAccount" };
+  if ((reg[name].email || "").toLowerCase() !== email.trim().toLowerCase()) {
+    return { ok: false, error: "emailMismatch" };
+  }
+
+  reg[name].pass = hashPassword(newPassword);
+  writeRegistry(reg);
+  return { ok: true };
+};

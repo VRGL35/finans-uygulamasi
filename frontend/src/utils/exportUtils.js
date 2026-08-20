@@ -1,7 +1,3 @@
-import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
-import * as XLSX from "xlsx";
-
 const labels = {
   tr: {
     title: "FINANSAL EKSTRE VE ANALIZ RAPORU",
@@ -31,7 +27,12 @@ const labels = {
   }
 };
 
-export const exportToPDF = (transactions, username, lang = "tr") => {
+export const exportToPDF = async (transactions, username, lang = "tr") => {
+  const [{ jsPDF }, { default: autoTable }] = await Promise.all([
+    import("jspdf"),
+    import("jspdf-autotable")
+  ]);
+
   const L = labels[lang] || labels.tr;
   const doc = new jsPDF();
 
@@ -39,7 +40,7 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
   const expense = transactions.filter(t => t.type === "expense").reduce((acc, t) => acc + Number(t.amount), 0);
   const balance = income - expense;
 
-  const primaryColor = [15, 23, 42]; 
+  const primaryColor = [15, 23, 42];
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
@@ -50,29 +51,29 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
   doc.setFontSize(9);
   doc.setTextColor(120, 120, 120);
   doc.text(L.desc, 14, 28);
-  
+
   doc.setFontSize(10);
   doc.setTextColor(50, 50, 50);
   doc.text(`${L.user}: @${username}   |   ${L.date}: ${new Date().toLocaleDateString('tr-TR')}`, 14, 36);
 
   const drawCard = (x, y, w, h, title, amount, amountColor) => {
-    doc.setDrawColor(226, 232, 240); 
-    doc.setFillColor(248, 250, 252); 
-    doc.roundedRect(x, y, w, h, 3, 3, 'FD'); 
-    
+    doc.setDrawColor(226, 232, 240);
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(x, y, w, h, 3, 3, 'FD');
+
     doc.setFont("helvetica", "bold");
     doc.setFontSize(9);
     doc.setTextColor(100, 113, 129);
     doc.text(title, x + 6, y + 9);
-    
+
     doc.setFontSize(14);
     doc.setTextColor(amountColor[0], amountColor[1], amountColor[2]);
     doc.text(`${amount.toLocaleString()} TL`, x + 6, y + 19);
   };
 
-  drawCard(14, 44, 56, 26, L.totalIncome, income, [16, 185, 129]);  
-  drawCard(75, 44, 56, 26, L.totalExpense, expense, [239, 68, 68]); 
-  drawCard(136, 44, 60, 26, L.balance, balance, [15, 23, 42]);      
+  drawCard(14, 44, 56, 26, L.totalIncome, income, [16, 185, 129]);
+  drawCard(75, 44, 56, 26, L.totalExpense, expense, [239, 68, 68]);
+  drawCard(136, 44, 60, 26, L.balance, balance, [15, 23, 42]);
 
   const tableRows = transactions.map(tx => [
     String(tx.id).slice(-6),
@@ -88,27 +89,26 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
     head: [L.headers],
     body: tableRows,
     theme: 'grid',
-    headStyles: { 
-      fillColor: primaryColor, 
-      textColor: 255, 
+    headStyles: {
+      fillColor: primaryColor,
+      textColor: 255,
       fontStyle: 'bold',
       halign: 'center',
       cellPadding: 5
     },
-    bodyStyles: { 
+    bodyStyles: {
       fontSize: 10,
       textColor: [50, 50, 50],
       cellPadding: 4
     },
-    columnStyles: { 
-      0: { halign: 'center', fontStyle: 'bold', textColor: [120, 120, 120] }, // ID
-      3: { halign: 'right', fontStyle: 'bold' }, // Tutar
-      4: { halign: 'center' }, // Tarih
-      5: { halign: 'center', fontStyle: 'bold' } // Tip
+    columnStyles: {
+      0: { halign: 'center', fontStyle: 'bold', textColor: [120, 120, 120] },
+      3: { halign: 'right', fontStyle: 'bold' },
+      4: { halign: 'center' },
+      5: { halign: 'center', fontStyle: 'bold' }
     },
     alternateRowStyles: { fillColor: [248, 250, 252] },
-    
-    didParseCell: function(data) {
+    didParseCell: function (data) {
       if (data.section === 'body' && data.column.index === 5) {
         if (data.cell.raw === L.income) {
           data.cell.styles.textColor = [16, 185, 129];
@@ -117,7 +117,6 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
         }
       }
     },
-    
     didDrawPage: function (data) {
       doc.setFontSize(8);
       doc.setTextColor(150);
@@ -132,21 +131,23 @@ export const exportToPDF = (transactions, username, lang = "tr") => {
   doc.save(`Finansal_Rapor_@${username}.pdf`);
 };
 
-export const exportToExcel = (transactions, username, lang = "tr") => {
+export const exportToExcel = async (transactions, username, lang = "tr") => {
+  const XLSX = await import("xlsx");
+
   const income = transactions.filter(t => t.type === "income").reduce((acc, t) => acc + Number(t.amount), 0);
   const expense = transactions.filter(t => t.type === "expense").reduce((acc, t) => acc + Number(t.amount), 0);
   const balance = income - expense;
 
   const excelData = [
-    ["FINANSAL ANALIZ RAPORU"], 
-    [`Kullanici: @${username}`, `Tarih: ${new Date().toLocaleDateString('tr-TR')}`], 
-    [], 
-    ["--- OZET BAKIYE DURUMU ---"], 
-    ["Toplam Gelir:", `${income} TL`], 
-    ["Toplam Gider:", `${expense} TL`], 
-    ["Net Bakiye:", `${balance} TL`], 
-    [], 
-    ["ID", "Baslik", "Kategori", "Tutar", "Para Birimi", "Tarih", "Tip"] 
+    ["FINANSAL ANALIZ RAPORU"],
+    [`Kullanici: @${username}`, `Tarih: ${new Date().toLocaleDateString('tr-TR')}`],
+    [],
+    ["--- OZET BAKIYE DURUMU ---"],
+    ["Toplam Gelir:", `${income} TL`],
+    ["Toplam Gider:", `${expense} TL`],
+    ["Net Bakiye:", `${balance} TL`],
+    [],
+    ["ID", "Baslik", "Kategori", "Tutar", "Para Birimi", "Tarih", "Tip"]
   ];
 
   transactions.forEach(t => {
@@ -164,13 +165,13 @@ export const exportToExcel = (transactions, username, lang = "tr") => {
   const ws = XLSX.utils.aoa_to_sheet(excelData);
 
   ws['!cols'] = [
-    { wch: 10 }, 
-    { wch: 30 }, 
-    { wch: 15 }, 
-    { wch: 15 }, 
-    { wch: 12 }, 
-    { wch: 15 }, 
-    { wch: 15 }  
+    { wch: 10 },
+    { wch: 30 },
+    { wch: 15 },
+    { wch: 15 },
+    { wch: 12 },
+    { wch: 15 },
+    { wch: 15 }
   ];
 
   const wb = XLSX.utils.book_new();

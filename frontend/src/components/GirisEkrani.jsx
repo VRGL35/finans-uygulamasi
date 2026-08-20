@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { playClickSound } from "../utils/soundUtils";
 import { translations } from "../utils/translations";
-import { loginUser, registerUser } from "../utils/auth";
+import { loginUser, registerUser, requestPasswordReset, maskEmail } from "../utils/auth";
+import SifreSifirlamaModal from "./SifreSifirlamaModal";
 
 export default function GirisEkrani({ onLogin, lang = "tr" }) {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
   const [email, setEmail] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
+  const [resetInfo, setResetInfo] = useState(null);
 
   const t = translations[lang] || translations.tr;
 
@@ -51,11 +53,20 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
 
   const handleForgotPassword = () => {
     playClickSound();
-    if (!username.trim()) {
-      toast.error("Şifrenizi sıfırlamak için lütfen önce kullanıcı adınızı girin.", { icon: "⚠️" });
-    } else {
-      toast.success(`Şifre sıfırlama bağlantısı @${username} için e-posta adresinize gönderildi!`, { icon: "📧" });
+    const name = username.trim();
+
+    if (!name) {
+      toast.error(t.resetNeedsUsername, { icon: "⚠️" });
+      return;
     }
+
+    const res = requestPasswordReset(name);
+    if (!res.ok) {
+      toast.error(res.error === "noEmail" ? t.errNoEmail : t.errNoAccount, { icon: "⚠️" });
+      return;
+    }
+
+    setResetInfo({ masked: maskEmail(res.email) });
   };
 
   const switchMode = () => {
@@ -107,21 +118,15 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
           </div>
 
           <div className="login-header">
-            <h2 className="login-title">
-              {isLogin ? "Sisteme Giriş Yap" : "Yeni Hesap Oluştur"}
-            </h2>
-            <p className="login-subtitle">
-              {isLogin
-                ? "Finansal kontrol paneline erişmek için bilgilerinizi girin."
-                : "Kendi finansal uzay üssünüzü kurmak için aramıza katılın."}
-            </p>
+            <h2 className="login-title">{isLogin ? t.loginTitle : t.registerTitle}</h2>
+            <p className="login-subtitle">{isLogin ? t.loginDesc : t.registerDesc}</p>
           </div>
 
           <form className="login-form" onSubmit={handleSubmit}>
             <div>
               <input
                 type="text"
-                placeholder="Kullanıcı Adı"
+                placeholder={t.usernamePlaceholder}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -139,7 +144,7 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
                 >
                   <input
                     type="email"
-                    placeholder="E-posta Adresi"
+                    placeholder={t.emailPlaceholder}
                     className="email-field"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -152,7 +157,7 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
             <div>
               <input
                 type="password"
-                placeholder="Şifre"
+                placeholder={t.passwordPlaceholder}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -173,12 +178,12 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
                 <span className="checkbox-visual">
                   <span className="checkbox-check">✓</span>
                 </span>
-                <span className="checkbox-text">Beni Hatırla</span>
+                <span className="checkbox-text">{t.rememberMe}</span>
               </label>
 
               {isLogin && (
                 <button type="button" className="forgot-link" onClick={handleForgotPassword}>
-                  Şifremi Unuttum
+                  {t.forgotPassword}
                 </button>
               )}
             </div>
@@ -189,21 +194,30 @@ export default function GirisEkrani({ onLogin, lang = "tr" }) {
               type="submit"
               className="btn-login"
             >
-              {isLogin ? "Giriş Yap" : "Kayıt Ol"}
+              {isLogin ? t.loginSubmit : t.registerSubmit}
             </motion.button>
           </form>
 
           <div className="login-toggle">
             <span className="login-toggle-text">
-              {isLogin ? "Hesabınız yok mu?" : "Zaten bir hesabınız var mı?"}
+              {isLogin ? t.noAccount : t.hasAccount}
             </span>
             <button type="button" className="login-toggle-btn" onClick={switchMode}>
-              {isLogin ? "Hemen Kayıt Olun" : "Giriş Yapın"}
+              {isLogin ? t.goRegister : t.goLogin}
             </button>
           </div>
 
         </div>
       </motion.div>
+
+      {resetInfo && (
+        <SifreSifirlamaModal
+          username={username.trim()}
+          maskedEmail={resetInfo.masked}
+          lang={lang}
+          onClose={() => setResetInfo(null)}
+        />
+      )}
     </div>
   );
 }
