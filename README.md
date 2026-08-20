@@ -2,15 +2,13 @@
 
 Modern web teknolojileri (React & Vite) kullanılarak geliştirilmiş; çok kullanıcılı, canlı kur destekli, gelişmiş raporlama özelliklerine sahip kişisel finans yönetim uygulaması. 
 
-*Bu proje, Eria Teknoloji staj programı kapsamında geliştirilmiştir.*
-
 ## Öne Çıkan Özellikler
 
 - **İzole Oturum ve Çoklu Kullanıcı Sistemi:** Birden fazla kullanıcının verilerinin birbirine karışmadığı, "Beni Hatırla" özellikli tam kontrollü giriş ekranı.
 - **Canlı Döviz Kuru Entegrasyonu:** Dış API üzerinden anlık döviz kurlarını çekerek portföy değerini dinamik olarak hesaplama.
-- **Yapay Zeka Finansal Asistan:** Kullanıcının harcama alışkanlıklarını analiz ederek tavsiyelerde bulunan akıllı asistan modülü.
+- **Akıllı Finansal Asistan:** Kullanıcının harcama alışkanlıklarını analiz ederek tavsiyelerde bulunan akıllı asistan modülü.
 - **Dinamik Tema ve UI Motoru:** Glassmorphism (cam efekti) tabanlı tasarım. Kullanıcının tercihine göre anında değişebilen 4 farklı özel tema.
-- **Gelişmiş Raporlama ve Dışa Aktarım:** Seçilen tarih aralığına ve kategoriye göre filtrelenen harcamaların PDF, Excel ve CSV formatlarında dışa aktarılabilmesi.
+- **Gelişmiş Raporlama ve Dışa Aktarım:** Harcamaların PDF ve Excel formatlarında dışa aktarılabilmesi.
 - **Entegre Radyo Çalar (Auto-Shuffle):** Sistemde gezinirken arka planda çalışan, gizlenebilir ve her girişte rastgele şarkı ile başlayan entegre radyo.
 - **Çoklu Dil Desteği:** Türkçe (TR) ve İngilizce (EN) arasında anında geçiş yapabilme imkanı.
 - **Gelişmiş Animasyonlar:** Framer Motion ile güçlendirilmiş arayüz ve akıcı sayfa geçişleri.
