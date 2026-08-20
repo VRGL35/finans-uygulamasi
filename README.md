@@ -8,7 +8,7 @@ Modern web teknolojileri (React & Vite) kullanılarak geliştirilmiş; çok kull
 - **Canlı Döviz Kuru Entegrasyonu:** Dış API üzerinden anlık döviz kurlarını çekerek portföy değerini dinamik olarak hesaplama.
 - **Yapay Zeka Finansal Asistan:** Kullanıcının harcama alışkanlıklarını analiz ederek tavsiyelerde bulunan akıllı asistan modülü.
 - **Dinamik Tema ve UI Motoru:** Glassmorphism (cam efekti) tabanlı tasarım. Kullanıcının tercihine göre anında değişebilen 4 farklı özel tema.
-- **Gelişmiş Raporlama ve Dışa Aktarım:** Seçilen tarih aralığına ve kategoriye göre filtrelenen harcamaların PDF, Excel ve CSV formatlarında dışa aktarılabilmesi.
+- **Gelişmiş Raporlama ve Dışa Aktarım:** Seçilen tarih aralığına ve kategoriye göre filtrelenen harcamaların PDF ve Excel formatlarında dışa aktarılabilmesi.
 - **Entegre Radyo Çalar (Auto-Shuffle):** Sistemde gezinirken arka planda çalışan, gizlenebilir ve her girişte rastgele şarkı ile başlayan entegre radyo.
 - **Çoklu Dil Desteği:** Türkçe (TR) ve İngilizce (EN) arasında anında geçiş yapabilme imkanı.
 - **Gelişmiş Animasyonlar:** Framer Motion ile güçlendirilmiş arayüz ve akıcı sayfa geçişleri.
