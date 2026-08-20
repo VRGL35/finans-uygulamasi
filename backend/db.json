@@ -313,6 +313,36 @@
       "date": "2026-08-19",
       "username": "baba",
       "id": 1786818608564
+    },
+    {
+      "title": "maaş",
+      "amount": 2000,
+      "type": "income",
+      "currency": "USD",
+      "category": "maas",
+      "date": "2026-08-20",
+      "username": "eren",
+      "id": 1786818608565
+    },
+    {
+      "title": "market",
+      "amount": 2000,
+      "type": "expense",
+      "currency": "TRY",
+      "category": "maas",
+      "date": "2026-08-20",
+      "username": "eren",
+      "id": 1786818608566
+    },
+    {
+      "title": "piyango",
+      "amount": 500,
+      "type": "income",
+      "currency": "TRY",
+      "category": "diger",
+      "date": "2026-08-20",
+      "username": "eren",
+      "id": 1786818608567
     }
   ],
   "users": [
