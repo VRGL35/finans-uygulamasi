@@ -2,8 +2,6 @@
 
 Modern web teknolojileri (React & Vite) kullanılarak geliştirilmiş; çok kullanıcılı, canlı kur destekli, gelişmiş raporlama özelliklerine sahip kişisel finans yönetim uygulaması. 
 
-*Bu proje, Eria Teknoloji staj programı kapsamında geliştirilmiştir.*
-
 ## Öne Çıkan Özellikler
 
 - **İzole Oturum ve Çoklu Kullanıcı Sistemi:** Birden fazla kullanıcının verilerinin birbirine karışmadığı, "Beni Hatırla" özellikli tam kontrollü giriş ekranı.
